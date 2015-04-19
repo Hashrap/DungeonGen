@@ -10,7 +10,7 @@ using System.IO;
 
 namespace Game1
 {
-    /*The entire purpose of this class is more or less to hold an array of interconnected map files
+    /*This class holds an array of interconnected map files
      * in this way, the Instance class could be considered the dungeon as a whole, while
      * the array of InstanceLevel objects represents each level of the dungeon*/
     class Instance
@@ -96,6 +96,7 @@ namespace Game1
         {
             //Code to generate a forest
         }
+
         //This should save the dungeon/items/monsters.  Not the character or inventory.
         public void saveInstance()
         {
@@ -126,7 +127,7 @@ namespace Game1
             }
             sr.Close();
         }
-        public void loadInstance(string name)  //Loads the dungeon.  Maybe.
+        public void loadInstance(string name)  //Loads the dungeon.
         {
             string[] data;  //for string.Split()'s
             StreamReader sr = new StreamReader("Content/txt/" + name + ".txt");
@@ -192,7 +193,7 @@ namespace Game1
                     arrayOfLevels[i].monsters[k].Level = int.Parse(data[4]);
                 }
             }
-            sr.Close();//Get this thang outta here
+            sr.Close();
         }
     }
 }

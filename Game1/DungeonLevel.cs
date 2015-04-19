@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-/*This class isn't commented very well ;_; */
+
 namespace Game1
 {
     class DungeonLevel : InstanceLevel
@@ -31,19 +31,10 @@ namespace Game1
                 }
             }
         }
-        //This is the dumbest piece of code I have ever written and doesn't work
+        
         public Tile[,] dungeonGen(Tile[,] board, int iterations, double min_position, double max_position)
         {
-            /*Essentially, what I'm trying to make happen here is this:
-             *This method splits the dungeon into two parts.  Then it recurses
-             *and splits it the other way, and keeps doing that until the 
-             *count limit is reached.  Then it should carve out a random rectangle
-             *in each subdungeon, and send it back up through through the
-             *recursion stack.  Each time, the method puts the two subdungeons
-             *immediately under it together using Array.Copy, then passes it back
-             *up to the method that called it, which puts the two pieces it recieved
-             *together and so so on until we once again have a fullsized board,
-             *but filled with rectangles.  It does not yet accomplish this, though it compiles.*/
+            //TODO: BSP dungeon gen
             Tile[,] subBoard1;
             Tile[,] subBoard2;
             Tile[,] board01;
@@ -146,9 +137,7 @@ namespace Game1
                 {
                     subBoard1 = new Tile[1, 1];
                     subBoard2 = new Tile[1, 1];
-                    Console.WriteLine("WHAT ARE YOU DOING LMFAO");
                     return board;
-                    //garflbak4rfg this sucks
                 }
             }
             return board;
