@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 
-namespace Game1
+namespace DungeonGen
 {
     class Item
     {
@@ -258,7 +258,7 @@ namespace Game1
         }
         public string ToString(bool save)
         {
-            //The boolean tells the method whether to use console syntax or savegame syntax
+            //The passed boolean indicates whether to use console syntax or savegame syntax
             if (save == false)
                 return name + "\nAR = " + attackRatingAdd + "\nDR = " + defenseRatingAdd + "\nMR = " + magicRatingAdd + "\nHP = " + hitPointsAdd
                     + "\nMP = " + manaPointsAdd + "\nSTR = " + strAdd + "\nCON = " + conAdd + "\nDEX = " + dexAdd

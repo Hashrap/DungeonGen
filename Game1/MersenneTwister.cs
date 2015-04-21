@@ -75,7 +75,7 @@
 
 using System;
 
-namespace Game1
+namespace DungeonGen
 {
     /// <summary>
     /// Generates pseudo-random numbers using the Mersenne Twister algorithm.

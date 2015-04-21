@@ -8,7 +8,7 @@
     <ProjectGuid>{B23695C9-9781-489D-90F1-A21FD6E331F7}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Game1</RootNamespace>
+    <RootNamespace>DungeonGen</RootNamespace>
     <AssemblyName>Game1</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -54,7 +54,7 @@
     <Compile Include="DieRoll.cs" />
     <Compile Include="DungeonLevel.cs" />
     <Compile Include="CompenentTest.cs" />
-    <Compile Include="Instance.cs" />
+    <Compile Include="Generator.cs" />
     <Compile Include="InstanceLevel.cs" />
     <Compile Include="Item.cs" />
     <Compile Include="MersenneTwister.cs" />

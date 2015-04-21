@@ -8,12 +8,10 @@ using System.Linq;
 using System.Text;
 using System.IO;
 
-namespace Game1
+namespace DungeonGen
 {
-    /*This class holds an array of interconnected map files
-     * in this way, the Instance class could be considered the dungeon as a whole, while
-     * the array of InstanceLevel objects represents each level of the dungeon*/
-    class Instance
+    //This class generates dungeons using one of several algorithms, depending on the method called
+    class Generator
     {
         //Attributes and objects
         public enum DungeonType { Cave, Dungeon, Forest };
@@ -21,7 +19,7 @@ namespace Game1
         public InstanceLevel[] arrayOfLevels;
         public string name;
         //Constructor
-        public Instance(int itype, string name)
+        public Generator(int itype, string name)
         {
             switch (itype)
             {
@@ -37,7 +35,7 @@ namespace Game1
             }
             this.name = name;
         }
-        public Instance()
+        public Generator()
         {
 
         }
@@ -57,7 +55,7 @@ namespace Game1
                     for (int j = 0; j < algorithm2; j++)//ages the cells using the 4-5 rule
                         cl.ageDungeon(false);
                     arrayOfLevels[i] = cl;
-                    /*These check the validity of the map, trashes bad maps until it gets a good one
+                    /*These check the validity of the map, trashes "bad" maps until it gets a good one
                     * Will attempt to repair mildly disjointed rooms.*/
                     arrayOfLevels[i].floodPrep();
                     int[] fTile = arrayOfLevels[i].findFloor();
@@ -155,7 +153,7 @@ namespace Game1
                     for (int j = 0; j < data.Length - 1; j++)
                     {
                         //Copies the actual map from the file
-                        arrayOfLevels[i].board[k, j] = (Game1.InstanceLevel.Tile)int.Parse(data[j]);
+                        arrayOfLevels[i].board[k, j] = (DungeonGen.InstanceLevel.Tile)int.Parse(data[j]);
                     }
                 }
                 sr.ReadLine();//Skip a line

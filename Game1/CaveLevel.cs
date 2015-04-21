@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Game1
+namespace DungeonGen
 {
     class CaveLevel:InstanceLevel
     {
@@ -107,6 +107,7 @@ namespace Game1
             for (yi = 1; yi < base.Size_Y - 1; yi++)
                 for (xi = 1; xi < base.Size_X - 1; xi++)
                     board[yi, xi] = board2[yi, xi];
+            
         }
     }
 }

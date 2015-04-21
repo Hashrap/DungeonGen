@@ -1,0 +1,2 @@
+C:\Users\Zillyhoo\Documents\GitHub\DungeonGen\Game1\obj\Debug\Game1.exe
+C:\Users\Zillyhoo\Documents\GitHub\DungeonGen\Game1\obj\Debug\Game1.pdb
