@@ -45,13 +45,24 @@ namespace DungeonGen
                 }
                 cl.printMap();
             }
-            //Saves the cave to [cavename].txt, int this case "Cave of Doom.txt"
+
+            //Saves the dungeon to [name].txt
             Console.WriteLine("Save dungeon? Y/N");
-            if (Console.ReadLine().Equals("Y"))
+            string input;
+            while (!(input = Console.ReadLine().ToLower()).Equals("y") && !input.Equals("n"))
+            {
+                Console.WriteLine("'Y' or 'N'");
+            }
+            if (input.Equals("y"))
                 caveOfDoom.saveInstance();
-            //Loads the cave we just saved
+
+            //Load a dungeon?
             Console.WriteLine("Load from .txt? Y/N");
-            if (Console.ReadLine().Equals("Y"))
+            while(!(input = Console.ReadLine().ToLower()).Equals("y") && !input.Equals("n"))
+            {
+                Console.WriteLine("'Y' or 'N'");
+            }
+            if (input.Equals("y"))
             {
                 Generator test = new Generator();
                 Console.WriteLine("Name of file?  Don't include the extension! ('Cave of Doom')");

@@ -234,7 +234,8 @@ namespace DungeonGen
             clean();
             bool good = false;
             bool alt = false;
-            //If it finds a bad spot, keep trying! 
+            //If it finds a bad spot, keep trying
+            // TODO: does not check if good spots exist, so the program hangs on small/filled maps.
             while (good == false)
             {
                 objectY = rng.Next(1, Size_Y - 1);

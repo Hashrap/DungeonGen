@@ -1,2 +1,12 @@
 C:\Users\Zillyhoo\Documents\GitHub\DungeonGen\Game1\obj\Debug\Game1.exe
 C:\Users\Zillyhoo\Documents\GitHub\DungeonGen\Game1\obj\Debug\Game1.pdb
+C:\Users\Zillyhoo\Documents\GitHub\DungeonGen\Game1\bin\Debug\Content\txt\armor.txt
+C:\Users\Zillyhoo\Documents\GitHub\DungeonGen\Game1\bin\Debug\Content\txt\Cave of Doom.txt
+C:\Users\Zillyhoo\Documents\GitHub\DungeonGen\Game1\bin\Debug\Content\txt\formulae.txt
+C:\Users\Zillyhoo\Documents\GitHub\DungeonGen\Game1\bin\Debug\Content\txt\monster.txt
+C:\Users\Zillyhoo\Documents\GitHub\DungeonGen\Game1\bin\Debug\Content\txt\prefix.txt
+C:\Users\Zillyhoo\Documents\GitHub\DungeonGen\Game1\bin\Debug\Content\txt\suffix.txt
+C:\Users\Zillyhoo\Documents\GitHub\DungeonGen\Game1\bin\Debug\Content\txt\weapon.txt
+C:\Users\Zillyhoo\Documents\GitHub\DungeonGen\Game1\bin\Debug\Game1.exe
+C:\Users\Zillyhoo\Documents\GitHub\DungeonGen\Game1\bin\Debug\Game1.pdb
+C:\Users\Zillyhoo\Documents\GitHub\DungeonGen\Game1\obj\Debug\DungeonGen.csprojResolveAssemblyReference.cache
