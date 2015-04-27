@@ -9,7 +9,7 @@ using System.Text;
 
 namespace DungeonGen
 {
-    /*This class acts as a parent class*/
+    /*This class is a parent class*/
     class InstanceLevel
     {
         /*these attributes are common to all map types.  Dimensions,
@@ -18,10 +18,12 @@ namespace DungeonGen
         public Tile[,] board;
         public List<Monster> monsters = new List<Monster>();
         private MersenneTwister rng = new MersenneTwister();
-        //g + b types are mostly just used to mark tiles as valid/invalid
+
+        //g + b types are used to mark tiles as valid/invalid
         //for various purposes.  Disjoints, items, monsters, etc.
         [FlagsAttribute]
         public enum Tile { f = 0x1, W = 0x2, g = 0x4, b = 0x8 };
+
         //properties
         private int badCount;
         public int BadCount
@@ -29,16 +31,12 @@ namespace DungeonGen
             get { return badCount; }
             set { badCount = value; }
         }
+
         private int size_x;
-        public int Size_X
-        {
-            get { return size_x; }
-        }
+        public int Size_X { get { return size_x; } }
         private int size_y;
-        public int Size_Y
-        {
-            get { return size_y; }
-        }
+        public int Size_Y { get { return size_y; } }
+
         private int objectX;
         private int objectY;
         //Constructor
@@ -134,8 +132,8 @@ namespace DungeonGen
                 return true;
         }
         /*Iterates through the map until it finds a floor tile,
-         * then sends its index in the array back.  In practice,
-         * this provides the starting tile for floodFill().*/
+         * then sends its index in the array back.  This
+         * provides the starting tile for floodFill().*/
         public int[] findFloor()
         {
             int[] index = new int[2];

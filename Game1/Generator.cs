@@ -35,10 +35,9 @@ namespace DungeonGen
             }
             this.name = name;
         }
-        public Generator()
-        {
 
-        }
+        public Generator() { }
+
         public void Cave(int levels, int algorithm1, int algorithm2, int wall, int size_x, int size_y)
         {
             arrayOfLevels = new CaveLevel[levels];
@@ -46,15 +45,17 @@ namespace DungeonGen
             {
                 CaveLevel cl;
                 bool good = false;
-                while (good == false)
+                while (good != true)
                 {
-                    cl = new CaveLevel(wall, size_y, size_x);
-                    cl.caveGen();
+                    cl = new CaveLevel(size_y, size_x);
+                    cl.randomFill(wall);
+
                     for (int j = 0; j < algorithm1; j++) //ages the cells using the 4-5 | 2 rule
-                        cl.ageDungeon(true);
+                        cl.ageDungeon(2);
                     for (int j = 0; j < algorithm2; j++)//ages the cells using the 4-5 rule
-                        cl.ageDungeon(false);
+                        cl.ageDungeon(1);
                     arrayOfLevels[i] = cl;
+
                     /*These check the validity of the map, trashes "bad" maps until it gets a good one
                     * Will attempt to repair mildly disjointed rooms.*/
                     arrayOfLevels[i].floodPrep();
@@ -80,6 +81,7 @@ namespace DungeonGen
                 }
             }
         }
+
         public void Dungeon(int levels, double pos_min, double pos_max, int min_room, int iterations, int size_y, int size_x)
         {
             arrayOfLevels = new DungeonLevel[levels];
