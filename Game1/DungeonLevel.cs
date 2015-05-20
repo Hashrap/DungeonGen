@@ -35,112 +35,13 @@ namespace DungeonGen
         public Tile[,] dungeonGen(Tile[,] board, int iterations, double min_position, double max_position)
         {
             //TODO: BSP dungeon gen
-            Tile[,] subBoard1;
-            Tile[,] subBoard2;
-            Tile[,] board01;
-            Tile[,] board02;
-            double minSplit;
-            double maxSplit;
+            if (rng.Next(99) % 2 == 1)
+            {
 
-            if (count > iterations)
-            {
-                Console.WriteLine("try again :(");
-                return board;
             }
-            if (count <= iterations)
+            else
             {
-                count++;
-                rand = rng.Next(0, 99);
-                //vertical split
-                if (count % 2 == 1)
-                {
-                    minSplit = min_position * board.GetLength(0);
-                    maxSplit = max_position * board.GetLength(0);
-                    rand = rng.Next((int)minSplit, (int)maxSplit);
-                    subBoard1 = new Tile[board.GetLength(1), rand];
-                    subBoard2 = new Tile[board.GetLength(1),(board.GetLength(0) - rand)];
-                    for (int i = 0; i < rand; i++)
-                    {
-                        for (int j = 0; j < board.GetLength(1); j++)
-                        {
-                            subBoard1[j, i] = board[i, j];
-                        }
-                    }
-                    for (int i = rand; i < (board.GetLength(0)); i++)
-                    {
-                        for (int j = 0; j < board.GetLength(1); j++)
-                        {
-                            subBoard2[j, i-rand] = board[i, j];
-                        }
-                    }
-                    if (count == iterations)
-                    {
-                        subBoard1 = carveRoom(subBoard1);
-                        subBoard2 = carveRoom(subBoard2);
-                        count--;
-                        Array.Copy(subBoard1, 0, board, 0, subBoard1.Length);
-                        Array.Copy(subBoard2, 0, board, subBoard1.Length, subBoard2.Length);
-                        return board;
-                    }
-                    else if (count < iterations)
-                    {
-                        board01 = dungeonGen(subBoard1, iterations, min_position, max_position);
-                        board02 = dungeonGen(subBoard2, iterations, min_position, max_position);
-                        count--;
-                        Array.Copy(board01, 0, board, 0, board01.Length);
-                        Array.Copy(board02, 0, board, board01.Length, board02.Length);
-                        return board;
-                    }
-                }
-                //horizontal split
-                else if (count % 2 == 0)
-                {
-                    minSplit = min_position * board.GetLength(1);
-                    maxSplit = max_position * board.GetLength(1);
-                    rand = rng.Next((int)minSplit, (int)maxSplit);
-                    subBoard1 = new Tile[board.GetLength(0), rand];
-                    subBoard2 = new Tile[board.GetLength(0), (board.GetLength(1) - rand)];
-                    for (int i = 0; i < board.GetLength(0); i++)
-                    {
-                        for (int j = 0; j < rand; j++)
-                        {
-                            subBoard1[i, j] = board[i, j];
-                        }
-                    }
-                    for (int i = 0; i < board.GetLength(0); i++)
-                    {
-                        for (int j = rand; j < (board.GetLength(1)); j++)
-                        {
-                            subBoard2[i, j-rand] = board[i, j];
-                        }
-                    }
-                    if (count == iterations)
-                    {
-                        subBoard1 = carveRoom(subBoard1);
-                        subBoard2 = carveRoom(subBoard2);
-                        count--;
-                        Array.Copy(subBoard1, 0, board, 0, subBoard1.Length);
-                        Array.Copy(subBoard2, 0, board, subBoard1.Length, subBoard2.Length);
-                        return board;
-                    }
-                    else if (count < iterations)
-                    {
-                        board01 = dungeonGen(subBoard1, iterations, min_position, max_position);
-                        board02 = dungeonGen(subBoard2, iterations, min_position, max_position);
-                        count--;
-                        Array.Copy(board01, 0, board, 0, board01.Length);
-                        Array.Copy(board02, 0, board, board01.Length, board02.Length);
-                        return board;
-                    }
-                }
-                else
-                {
-                    subBoard1 = new Tile[1, 1];
-                    subBoard2 = new Tile[1, 1];
-                    return board;
-                }
             }
-            return board;
         }
 
         public Tile[,] carveRoom(Tile[,] array)
