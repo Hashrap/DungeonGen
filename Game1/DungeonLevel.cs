@@ -42,6 +42,8 @@ namespace DungeonGen
             else
             {
             }
+
+            return null;
         }
 
         public Tile[,] carveRoom(Tile[,] array)

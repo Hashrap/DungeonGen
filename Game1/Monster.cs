@@ -74,7 +74,7 @@ namespace DungeonGen
             while (wait < 10000000)
                 wait++;
             string[] split;
-            StreamReader sr = new StreamReader("monster.txt");
+            StreamReader sr = new StreamReader("Content\\txt\\monster.txt");
             int r = rng.Next(1, 38);
             for (int i = 0; i < r; i++)
             {

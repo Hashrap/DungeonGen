@@ -24,6 +24,21 @@ namespace DungeonGen
         [FlagsAttribute]
         public enum Tile { f = 0x1, W = 0x2, g = 0x4, b = 0x8 };
 
+        public struct Point
+        {
+            private int x;
+            private int y;
+
+            public int X { get; set; }
+            public int Y { get; set; }
+
+            public Point(int _x, int _y) : this()
+            {
+                x = _x;
+                y = _y;
+            }
+        }
+
         //properties
         private int badCount;
         public int BadCount
@@ -102,6 +117,47 @@ namespace DungeonGen
             floodSearch(y + 1, x);
             floodSearch(y - 1, x);
         }
+        /* Starts at a source tile, then spreads throughout adjacent floor
+ * tiles and marks them reachable if they are set to unreachable.
+ * Not susceptible to stack overflow on large maps. */
+        public void iterativeFloodSearch(int y, int x)
+        {
+            Stack<Point> searchStack = new Stack<Point>();
+            HashSet<Point> searched = new HashSet<Point>();
+            searchStack.Push(new Point(x, y));
+            while (searchStack.Count > 0)
+            {
+                Point pos = searchStack.Pop();
+                // check popped coordinates
+                if ((board[pos.Y, pos.X] & Tile.f) == Tile.f)
+                {
+                    if ((board[pos.Y, pos.X] & Tile.b) == Tile.b)
+                    {
+                        board[pos.Y, pos.X] |= Tile.g;
+                        board[pos.Y, pos.X] &= ~Tile.b;
+                    }
+                }
+                // Log this coordinate as checked
+                searched.Add(pos);
+
+                //push adjacent coordinates
+                List<Point> adjacents = new List<Point>();
+                Point adjacent = new Point(pos.Y, pos.X - 1);
+                adjacents.Add(adjacent);
+                adjacent = new Point(pos.Y, pos.X + 1);
+                adjacents.Add(adjacent);
+                adjacent = new Point(pos.Y - 1, pos.X);
+                adjacents.Add(adjacent);
+                adjacent = new Point(pos.Y + 1, pos.X);
+                adjacents.Add(adjacent);
+                foreach (Point point in adjacents)
+                {
+                    if (!searched.Contains(point))
+                        searchStack.Push(point);
+                }
+            }
+        }
+
         /* Checks to see if floodFill() could reach every floor tile.
          * returns true if it reached every floor tile and false
          * if the map was disjointed and floodFill() missed a tile*/
@@ -196,8 +252,10 @@ namespace DungeonGen
         /*This method keeps making duplicates
          * it should be threaded so we can pause it
          * and get unique items each time*/
-        public void placeObject()
+        public void placeObjects()
         {
+            int num = rng.Next(Convert.ToInt32((Size_X + Size_Y) / 20), Convert.ToInt32((Size_X + Size_Y) / 15));
+            items = new Item[num];
             for (int i = 0; i < items.Length; i++)
             {
                 bool place = false;
@@ -214,7 +272,7 @@ namespace DungeonGen
                     }
                 }
             }
-            for (int i = 0; i < rng.Next(Convert.ToInt32((Size_X + Size_Y) / 20), Convert.ToInt32((Size_X + Size_Y) / 15)); i++)
+            for (int i = 0; i < num; i++)
             {
                 bool place = false;
                 while (place == false)

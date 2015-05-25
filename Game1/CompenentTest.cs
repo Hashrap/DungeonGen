@@ -17,7 +17,7 @@ namespace DungeonGen
         {
             Generator test;
             /**************** CAVE TEST ***************/
-            /*
+            
             test = new Generator(0, "Cave of Doom");
             Console.WriteLine("Parameters for dungeon creation.  Good values are hard to come by," +
                 "but we found that 5 levels, 5 passes, 1 pass, 40%, and 65 x 65 work pretty well.");
@@ -46,17 +46,18 @@ namespace DungeonGen
                     Console.WriteLine(m.ToString(false));
                 }
                 cl.printMap();
-            }*/
+            }
 
             /**************** DUNGEON TEST ***************/
             //Create a dungeon
+            /*
             test = new Generator(1, "Dungeon of Death");
             test.Dungeon(1, .3, .7, 9, 2, 64, 64);
             foreach (DungeonLevel dl in test.arrayOfLevels)
             {
                 dl.printMap();
             }
-
+            */
             /**************** THREADED ITEMS TEST ***************/
             /*Item item = new Item(50, 50, false);
             Thread itemGen = new Thread(new ThreadStart(item.testItems));

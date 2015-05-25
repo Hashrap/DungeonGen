@@ -45,6 +45,7 @@ namespace DungeonGen
             {
                 CaveLevel cl;
                 bool good = false;
+                int trashed = 0;
                 while (good != true)
                 {
                     cl = new CaveLevel(size_y, size_x);
@@ -60,19 +61,22 @@ namespace DungeonGen
                     * Will attempt to repair mildly disjointed rooms.*/
                     arrayOfLevels[i].floodPrep();
                     int[] fTile = arrayOfLevels[i].findFloor();
-                    arrayOfLevels[i].floodSearch(fTile[0], fTile[1]);
-                    if (arrayOfLevels[i].isEverythingReachable() == false && arrayOfLevels[i].BadCount > size_x + size_y)
+                    arrayOfLevels[i].iterativeFloodSearch(fTile[0], fTile[1]);
+                    /*if (arrayOfLevels[i].isEverythingReachable() == false && arrayOfLevels[i].BadCount > size_x + size_y)
                     {
                         good = false; //Trashes the map
+                        trashed++;
+                        Console.WriteLine(trashed);
                     }
                     else if (arrayOfLevels[i].isEverythingReachable() == false && arrayOfLevels[i].BadCount <= size_x + size_y)
                     {
                         arrayOfLevels[i].fill(); //Repairs the map
                         good = true;
                     }
-                    else
+                    else*/
                         good = true; //Map is fine as is
-                    arrayOfLevels[i].placeObject();
+                    arrayOfLevels[i].placeObjects();
+                    arrayOfLevels[i].clean();
                     int waiter = 0;
                     while (waiter < 10000000)
                     {
