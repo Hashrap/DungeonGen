@@ -17,23 +17,21 @@ namespace DungeonGen
         {
             Generator test;
             /**************** CAVE TEST ***************/
-            
+            /*
             test = new Generator(0, "Cave of Doom");
             Console.WriteLine("Parameters for dungeon creation.  Good values are hard to come by," +
-                "but we found that 5 levels, 5 passes, 1 pass, 40%, and 65 x 65 work pretty well.");
+                "but we found that 5 levels, a protocol of 222221," + " 40% wall coverage, and dimensions of 65 x 65 work pretty well.");
             Console.WriteLine("# of levels: (valid: > 0)");
             int l = int.Parse(Console.ReadLine());
-            Console.WriteLine("# of passes with the 4-5/2 rule: (valid: > 0)");
-            int a = int.Parse(Console.ReadLine());
-            Console.WriteLine("# of passes with the 4-5 rule: (valid: > 0)");
-            int b = int.Parse(Console.ReadLine());
+            Console.WriteLine("Build a protocol. ('222221' would be five passes of deposition, followed by a pass of erosion)");
+            string s = Console.ReadLine();
             Console.WriteLine("% of initial wall coverage: (valid: 0-100)");
             int w = int.Parse(Console.ReadLine());
-            Console.WriteLine("X dimensions: (valid: > 0");
+            Console.WriteLine("X dimensions: (valid: > 0)");
             int x = int.Parse(Console.ReadLine());
             Console.WriteLine("Y dimensions: (valid: > 0)");
             int y = int.Parse(Console.ReadLine());
-            test.Cave(l, a, b, w, x, y);
+            test.Cave(l, s, w, x, y);
             //prints the cave
             foreach (CaveLevel cl in test.arrayOfLevels)
             {
@@ -47,17 +45,17 @@ namespace DungeonGen
                 }
                 cl.printMap();
             }
-
+            */
             /**************** DUNGEON TEST ***************/
             //Create a dungeon
-            /*
+            
             test = new Generator(1, "Dungeon of Death");
-            test.Dungeon(1, .3, .7, 9, 2, 64, 64);
+            test.Dungeon(1, .3, .7, 9, 3, 75, 75);
             foreach (DungeonLevel dl in test.arrayOfLevels)
             {
                 dl.printMap();
             }
-            */
+            
             /**************** THREADED ITEMS TEST ***************/
             /*Item item = new Item(50, 50, false);
             Thread itemGen = new Thread(new ThreadStart(item.testItems));

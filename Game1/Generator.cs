@@ -38,7 +38,7 @@ namespace DungeonGen
 
         public Generator() { }
 
-        public void Cave(int levels, int algorithm1, int algorithm2, int wall, int size_x, int size_y)
+        public void Cave(int levels, string protocol, int wall, int size_x, int size_y)
         {
             arrayOfLevels = new CaveLevel[levels];
             for (int i = 0; i < levels; i++)
@@ -51,14 +51,18 @@ namespace DungeonGen
                     cl = new CaveLevel(size_y, size_x);
                     cl.randomFill(wall);
 
-                    for (int j = 0; j < algorithm1; j++) //ages the cells using the 4-5 | 2 rule
-                        cl.ageDungeon(2);
-                    for (int j = 0; j < algorithm2; j++)//ages the cells using the 4-5 rule
-                        cl.ageDungeon(1);
+                    foreach (char ch in protocol)
+                    {
+                        if (ch == '1')
+                            cl.ageDungeon(1);
+                        if (ch == '2')
+                            cl.ageDungeon(2);
+                    }
+
                     arrayOfLevels[i] = cl;
 
-                    /*These check the validity of the map, trashes "bad" maps until it gets a good one
-                    * Will attempt to repair mildly disjointed rooms.*/
+                    /* These check the validity of the map, trashes "bad" maps until it gets a good one
+                     * Will attempt to repair mildly disjointed rooms.*/
                     arrayOfLevels[i].floodPrep();
                     int[] fTile = arrayOfLevels[i].findFloor();
                     arrayOfLevels[i].iterativeFloodSearch(fTile[0], fTile[1]);
@@ -92,7 +96,7 @@ namespace DungeonGen
             for (int i = 0; i < levels; i++)
             {
                 DungeonLevel dl = new DungeonLevel(size_y, size_x);
-                dl.dungeonGen(dl.board, iterations, pos_min, pos_max);
+                dl.dungeonGen(iterations, pos_min, pos_max, min_room);
                 arrayOfLevels[i] = dl;
             }
         }

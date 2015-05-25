@@ -11,8 +11,6 @@ namespace DungeonGen
 {
     class CaveLevel:InstanceLevel
     {
-        private MersenneTwister rng = new MersenneTwister();
-
         public CaveLevel(int size_y, int size_x)
         : base(size_y, size_x, false)
         {

@@ -11,16 +11,45 @@ namespace DungeonGen
 {
     class DungeonLevel : InstanceLevel
     {
-        private const int MINIMUM_ROOM_AREA = 9;
-        private int rand;
-        private int count;
-        Tile[,] altBoard;
-        private MersenneTwister rng = new MersenneTwister();
-        public DungeonLevel(int size_y, int size_x)
+        private class Leaf
+        {
+            private readonly int _minimumLeafSize = 6;
+
+            private int top, left, height, width;
+            private Leaf leftChild, rightChild;
+            private Rectangle room;
+            private List<Point> hall;
+        }
+
+        private struct Rectangle
+        {
+            private int x, y, width, height;
+            public int X { get; set; }
+            public int Y { get; set; }
+            public int Width { get; set; }
+            public int Height { get; set; }
+
+            public Rectangle(int top, int left, int width, int height)
+            {
+                this.x = left;
+                this.y = top;
+                this.width = width;
+                this.height = height;
+            }
+
+            public Rectangle(Point a, Point b)
+            {
+                this.x = Math.Min(a.X, b.X);
+                this.y = Math.Min(a.Y, b.Y);
+                this.width = Math.Abs(a.X - b.X);
+                this.height = Math.Abs(a.Y - b.Y);
+            }
+        }
+
+        public DungeonLevel(int size_x, int size_y)
             : base(size_y, size_x, true)
         {
-            board = new Tile[base.Size_Y, base.Size_X];
-            altBoard = new Tile[base.Size_X, base.Size_Y];
+            board = new Tile[base.Size_X, base.Size_Y];
             for (int i = 0; i < base.Size_Y; i++)
             //goes through each row
             {
@@ -32,13 +61,15 @@ namespace DungeonGen
             }
         }
         
-        public Tile[,] dungeonGen(Tile[,] board, int iterations, double min_position, double max_position)
+        public Tile[,] dungeonGen(int iterations, double min_position, double max_position, int minimum_area)
         {
             //TODO: BSP dungeon gen
+            //Horizontal
             if (rng.Next(99) % 2 == 1)
             {
 
             }
+            //Vertical
             else
             {
             }

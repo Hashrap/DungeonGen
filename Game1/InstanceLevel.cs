@@ -17,7 +17,7 @@ namespace DungeonGen
         public Item[] items;
         public Tile[,] board;
         public List<Monster> monsters = new List<Monster>();
-        private MersenneTwister rng = new MersenneTwister();
+        protected MersenneTwister rng = new MersenneTwister();
 
         //g + b types are used to mark tiles as valid/invalid
         //for various purposes.  Disjoints, items, monsters, etc.
