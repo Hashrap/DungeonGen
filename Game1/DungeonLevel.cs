@@ -9,7 +9,7 @@ using System.Text;
 
 namespace DungeonGen
 {
-    class DungeonLevel : InstanceLevel
+    public class DungeonLevel : Map
     {
         private class Leaf
         {
@@ -29,7 +29,7 @@ namespace DungeonGen
             public int Width { get; set; }
             public int Height { get; set; }
 
-            public Rectangle(int top, int left, int width, int height)
+            public Rectangle(int top, int left, int width, int height) : this()
             {
                 this.x = left;
                 this.y = top;
@@ -37,7 +37,7 @@ namespace DungeonGen
                 this.height = height;
             }
 
-            public Rectangle(Point a, Point b)
+            public Rectangle(Point a, Point b) : this()
             {
                 this.x = Math.Min(a.X, b.X);
                 this.y = Math.Min(a.Y, b.Y);
@@ -56,7 +56,7 @@ namespace DungeonGen
                 for (int j = 0; j < base.Size_X; j++)
                 //goes through each column in a row
                 {
-                    board[i, j] |= Tile.W;
+                    board[i, j] &= ~Tile.Floor;
                 }
             }
         }
@@ -93,7 +93,7 @@ namespace DungeonGen
                     for (int j = 0; j < array.GetLength(1); j++)
                     //goes through each column in a row
                     {
-                        board[i, j] |= Tile.W;
+                        board[i, j] |= Tile.Valid;
                     }
                 }
                 y_length = rng.Next(array.GetLength(0));
@@ -108,9 +108,8 @@ namespace DungeonGen
                         for (int j = x; j < x_length; j++)
                         //goes through each column in a row
                         {
-                            array[i, j] &= ~Tile.W;
-                            array[i, j] |= Tile.f;
-                            array[i, j] |= Tile.g;
+                            array[i, j] &= ~Tile.Valid;
+                            array[i, j] |= Tile.Floor;
                             good = true;
                         }
                     }

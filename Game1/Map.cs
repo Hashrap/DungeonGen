@@ -1,6 +1,4 @@
 ﻿//Spencer Corkran
-//GSD III
-//Tonedeaf Studios
 
 using System;
 using System.Collections.Generic;
@@ -10,7 +8,7 @@ using System.Text;
 namespace DungeonGen
 {
     /*This class is a parent class*/
-    class InstanceLevel
+    public class Map
     {
         /*these attributes are common to all map types.  Dimensions,
          * an array to hold tiles, and the flag enumeration for basic tile types.*/
@@ -22,7 +20,7 @@ namespace DungeonGen
         //g + b types are used to mark tiles as valid/invalid
         //for various purposes.  Disjoints, items, monsters, etc.
         [FlagsAttribute]
-        public enum Tile { f = 0x1, W = 0x2, g = 0x4, b = 0x8 };
+        public enum Tile { Wall = 0x0, Floor = 0x1, Valid = 0x2, ValidFloor = 0x4};
 
         public struct Point
         {
@@ -55,7 +53,7 @@ namespace DungeonGen
         private int objectX;
         private int objectY;
         //Constructor
-        public InstanceLevel(int y, int x, bool load)
+        public Map(int y, int x, bool load)
         {
             size_y = y;
             size_x = x;
@@ -77,16 +75,8 @@ namespace DungeonGen
                             Console.Write('.');
                             break;
                         //changes wall tiles into '#'
-                        case 2:
+                        case 0:
                             Console.Write('#');
-                            break;
-                        //down stairs into '>'
-                        case 9:
-                            Console.Write('>');
-                            break;
-                        //up stairs into '<'
-                        case 5:
-                            Console.Write('<');
                             break;
                     }
                 }
@@ -96,16 +86,28 @@ namespace DungeonGen
         }
         /*Starts at a source tile, then spreads throughout adjacent floor
          * tiles and marks them reachable if they are set to unreachable.*/
+        public int[,] exportMap()
+        {
+            int[,] map = new int[board.GetLength(0), board.GetLength(1)];
+            for (int x = 0; x < map.GetLength(0); x++)
+            {
+                for (int y = 0; y < map.GetLength(1); y++)
+                {
+                    map[x, y] = (int)board[x, y];
+                }
+            }
+            return map;
+        }
+        /* Starts at a source tile, then spreads throughout adjacent floor
+         * tiles and marks them reachable if they are set to unreachable.*/
         public void floodSearch(int y, int x)
         {
-            if ((board[y, x] & Tile.f) == Tile.f)
+            if ((board[y, x] & Tile.Floor) == Tile.Floor)
             {
-                if ((board[y, x] & Tile.b) == Tile.b)
-                {
-                    board[y, x] |= Tile.g;
-                    board[y, x] &= ~Tile.b;
-                }
+                if ((board[y, x] & Tile.Valid) != Tile.Valid)
+                    board[y, x] |= Tile.Valid;
                 else
+                    // we've marked this tile already
                     return;
             }
             else
@@ -118,8 +120,8 @@ namespace DungeonGen
             floodSearch(y - 1, x);
         }
         /* Starts at a source tile, then spreads throughout adjacent floor
- * tiles and marks them reachable if they are set to unreachable.
- * Not susceptible to stack overflow on large maps. */
+         * tiles and marks them reachable if they are set to unreachable.
+         * Not susceptible to stack overflow on large maps. */
         public void iterativeFloodSearch(int y, int x)
         {
             Stack<Point> searchStack = new Stack<Point>();
@@ -129,18 +131,17 @@ namespace DungeonGen
             {
                 Point pos = searchStack.Pop();
                 // check popped coordinates
-                if ((board[pos.Y, pos.X] & Tile.f) == Tile.f)
+                if ((board[pos.Y, pos.X] & Tile.Floor) == Tile.Floor)
                 {
-                    if ((board[pos.Y, pos.X] & Tile.b) == Tile.b)
+                    if ((board[pos.Y, pos.X] & Tile.Valid) != Tile.Valid)
                     {
-                        board[pos.Y, pos.X] |= Tile.g;
-                        board[pos.Y, pos.X] &= ~Tile.b;
+                        board[pos.Y, pos.X] |= Tile.Valid;
                     }
                 }
                 // Log this coordinate as checked
                 searched.Add(pos);
 
-                //push adjacent coordinates
+                // push adjacent coordinates
                 List<Point> adjacents = new List<Point>();
                 Point adjacent = new Point(pos.Y, pos.X - 1);
                 adjacents.Add(adjacent);
@@ -150,6 +151,8 @@ namespace DungeonGen
                 adjacents.Add(adjacent);
                 adjacent = new Point(pos.Y + 1, pos.X);
                 adjacents.Add(adjacent);
+
+                // Only check each tile once
                 foreach (Point point in adjacents)
                 {
                     if (!searched.Contains(point))
@@ -163,49 +166,37 @@ namespace DungeonGen
          * if the map was disjointed and floodFill() missed a tile*/
         public bool isEverythingReachable()
         {
-            BadCount = 0;
+            badCount = 0;
             for (int i = 0; i < board.GetLength(0); i++)
             {
                 for (int j = 0; j < board.GetLength(1); j++)
                 {
-                    if ((board[i, j] & Tile.b) == Tile.b)
-                    {
-                        if ((board[i, j] & Tile.f) == Tile.f)
-                        {
-                            /* While it's at it, it counts the unreachable
-                             * floor tiles.  If the number is too large,
-                             * a map should be discarded*/
-                            badCount++;
-                        }
-                    }
+                    if ((board[i, j] & Tile.Floor) == Tile.Floor)
+                        badCount++;
                 }
             }
             if (badCount > 0)
-            {
                 return false;
-            }
             else
                 return true;
         }
-        /*Iterates through the map until it finds a floor tile,
+
+        /* Randomly checks the map until it finds a floor tile,
          * then sends its index in the array back.  This
          * provides the starting tile for floodFill().*/
+
+        //TODO: pick from near the center rather than randomly
         public int[] findFloor()
         {
-            int[] index = new int[2];
-            for (int i = 0; i < board.GetLength(0); i++)
+            int x, y;
+            while(true)
             {
-                for (int j = 0; j < board.GetLength(1); j++)
-                {
-                    if ((board[i, j] & Tile.f) == Tile.f)
-                    {
-                        index[0] = i;
-                        index[1] = j;
-                        return index;
-                    }
-                }
+                x = rng.Next(1, Size_X - 1);
+                y = rng.Next(1, Size_Y - 1);
+                if ((board[x, y] & Tile.Floor) == Tile.Floor)
+                    return new int[2] { x, y };
             }
-            return index; //If this happens something went wrong
+            return null; //If this happens something went wrong
         }
         /* Changes any unreachable floor into a wall*/
         public void fill()
@@ -214,39 +205,35 @@ namespace DungeonGen
             {
                 for (int j = 0; j < board.GetLength(1); j++)
                 {
-                    if ((board[i, j] & Tile.f) == Tile.f)
-                    {
-                        if ((board[i, j] & Tile.b) == Tile.b)
-                        {
-                            board[i, j] |= Tile.W;
-                            board[i, j] &= ~Tile.f;
-                        }
-                    }
+                    // Change unreachble floors to walls
+                    if ((board[i, j] & Tile.Floor) == Tile.Floor)
+                            board[i, j] &= ~Tile.Floor;
                 }
             }
         }
-        /* Sets all tiles to "unreachable"*/
-        public void floodPrep()
+        /* Sets all tiles to "invalid" */
+        public void setInvalid()
         {
             //Sets every tile to 'bad', or 'unreachable'
             for (int i = 0; i < board.GetLength(0); i++)
             {
                 for (int j = 0; j < board.GetLength(1); j++)
                 {
-                    board[i, j] |= Tile.b;
+                    board[i, j] &= ~Tile.Valid;
                 }
             }
         }
-        public void clean()
+
+        /* Sets all tiles to walls */
+        public void setWall()
         {
-            //Turns off g + b enums
-            for (int i = 0; i < board.GetLength(0); i++)
+            //goes through each row
+            for (int i = 0; i < Size_Y; i++)
             {
-                for (int j = 0; j < board.GetLength(1); j++)
-                {
-                    board[i, j] &= ~Tile.b;
-                    board[i, j] &= ~Tile.g;
-                }
+                //goes through each column in a row
+                for (int j = 0; j < Size_X; j++)
+
+                    board[i, j] = Tile.Wall;
             }
         }
         /*This method keeps making duplicates
@@ -264,7 +251,7 @@ namespace DungeonGen
                 {
                     objectY = rng.Next(1, Size_Y - 1);
                     objectX = rng.Next(1, Size_X - 1);
-                    if ((board[objectY, objectX] & Tile.f) == Tile.f)
+                    if ((board[objectY, objectX] & Tile.Floor) == Tile.Floor)
                     {
                         //generate an item
                         items[i] = new Item(objectY, objectX, false);
@@ -279,7 +266,7 @@ namespace DungeonGen
                 {
                     objectY = rng.Next(1, Size_Y - 1);
                     objectX = rng.Next(1, Size_X - 1);
-                    if ((board[objectY, objectX] & Tile.f) == Tile.f)
+                    if ((board[objectY, objectX] & Tile.Floor) == Tile.Floor)
                     {
                         //generate a monster
                         monsters.Add(new Monster(objectX, objectY, false));
@@ -287,28 +274,7 @@ namespace DungeonGen
                     }
                 }
             }
-            clean();
-            bool good = false;
-            bool alt = false;
-            //If it finds a bad spot, keep trying
-            // TODO: does not check if good spots exist, so the program hangs on small/filled maps.
-            while (good == false)
-            {
-                objectY = rng.Next(1, Size_Y - 1);
-                objectX = rng.Next(1, Size_X - 1);
-                if (alt == false && (int)board[objectY, objectX] == 1)
-                {
-                    //f|b can be used to create down stairs I suppose
-                    board[objectY, objectX] |= Tile.b;
-                    alt = true;
-                }
-                if (alt == true && (int)board[objectY,objectX] == 1)
-                {
-                    //f|g can be up stairs
-                    board[objectY, objectX] |= Tile.g;
-                    good = true;
-                }
-            }
+            setInvalid();
         }
     }
 }

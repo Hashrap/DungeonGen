@@ -1,7 +1,4 @@
 ﻿//Spencer Corkran
-//GSD III
-//Tonedeaf Studios
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +6,7 @@ using System.Text;
 
 namespace DungeonGen
 {
-    class CaveLevel:InstanceLevel
+    public class CaveLevel:Map
     {
         public CaveLevel(int size_y, int size_x)
         : base(size_y, size_x, false)
@@ -20,16 +17,6 @@ namespace DungeonGen
         //This method creates the baseline map to begin the aging process
         public void randomFill(int wall_chance)
         {
-            //sets the whole map to "wall"
-            for (int i = 0; i < base.Size_Y; i++)
-            //goes through each row
-            {
-                for (int j = 0; j < base.Size_X; j++)
-                //goes through each column in a row
-                {
-                    board[i, j] = Tile.W;
-                }
-            }
             //randomizes everything but the edges of the map
             for (int i = 1; i < base.Size_Y - 1; i++)
             //goes through each row
@@ -38,9 +25,9 @@ namespace DungeonGen
                 //goes through each column in a row
                 {
                     if (rng.Next(100) <= wall_chance)
-                        board[i, j] = Tile.W;
+                        board[i, j] = Tile.Wall;
                     else
-                        board[i, j] = Tile.f;
+                        board[i, j] = Tile.Floor;
                 }
             }
         }
@@ -64,7 +51,7 @@ namespace DungeonGen
                     for (ii = -1; ii <= 1; ii++)
                         for (jj = -1; jj <= 1; jj++)
                         {
-                            if (board[yi + ii, xi + jj] != Tile.f)
+                            if (board[yi + ii, xi + jj] != Tile.Floor)
                                 adjWallCount++;
                         }
                     /* Variant one tends to 'erode' the walls,
@@ -74,16 +61,16 @@ namespace DungeonGen
                         case 2:
                             //5 or more walls OR less than 2 walls surrounding source tile
                             if (adjWallCount >= 5 || adjWallCount < 2)
-                                board2[yi, xi] = Tile.W;
+                                board2[yi, xi] = Tile.Wall;
                             else
-                                board2[yi, xi] = Tile.f;
+                                board2[yi, xi] = Tile.Floor;
                             break;
                         case 1: 
                             //5 or more walls surrounding source tile
                             if (adjWallCount >= 5)
-                                board2[yi, xi] = Tile.W;
+                                board2[yi, xi] = Tile.Wall;
                             else
-                                board2[yi, xi] = Tile.f;
+                                board2[yi, xi] = Tile.Floor;
                             break;
                     }
                 }

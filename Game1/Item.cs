@@ -1,6 +1,4 @@
 ﻿//Spencer Corkran
-//GSD III
-//Tonedeaf Studios
 
 using System;
 using System.Collections.Generic;
@@ -10,7 +8,7 @@ using System.IO;
 
 namespace DungeonGen
 {
-    class Item
+    public class Item
     {
         //attributes
         public enum Type { Weapon = 0, Armor = 1, Potion = 2, Scroll = 3, Tool = 4 }

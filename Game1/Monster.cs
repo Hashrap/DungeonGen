@@ -1,8 +1,4 @@
-﻿//Michael Heilmann
-//GSD III
-//Tonedeaf Studios
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +6,7 @@ using System.IO;
 
 namespace DungeonGen
 {
-    class Monster
+    public class Monster
     {
         MersenneTwister rng = new MersenneTwister();
         private int y;

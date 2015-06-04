@@ -1,6 +1,4 @@
 ﻿//Spencer Corkran
-//GSD III
-//Tonedeaf Studios
 
 using System;
 using System.Collections.Generic;
@@ -11,7 +9,7 @@ using System.Threading;
 
 namespace DungeonGen
 {
-    class CompenentTest
+    public class ComponentTest
     {
         static void Main(string[] args)
         {
@@ -51,7 +49,7 @@ namespace DungeonGen
             
             test = new Generator(1, "Dungeon of Death");
             test.Dungeon(1, .3, .7, 9, 3, 75, 75);
-            foreach (DungeonLevel dl in test.arrayOfLevels)
+            foreach (DungeonLevel dl in test.arrayOfMaps)
             {
                 dl.printMap();
             }
@@ -91,7 +89,7 @@ namespace DungeonGen
                 test.loadInstance(Console.ReadLine());
                 //Prints the items, monsters, and maps associated with
                 //each level for comparison to the pre-save print
-                foreach (CaveLevel cl in test.arrayOfLevels)
+                foreach (CaveLevel cl in test.arrayOfMaps)
                 {
                     foreach (Item i in cl.items)
                     {

@@ -1,6 +1,4 @@
 ﻿//Spencer Corkran
-//GSD III
-//Tonedeaf Studios
 
 using System;
 using System.Collections.Generic;
@@ -9,7 +7,7 @@ using System.Text;
 
 namespace DungeonGen
 {
-    class DieRoll
+    public class DieRoll
     {
         //Simulate some die rolls
         //rng object
